@@ -1,0 +1,11 @@
+{
+  "modid": "TheGuardianChan",
+  "name": "The Guardian Chan(蹲酱)",
+  "author_list": ["Rita"],
+  "credits": "搞事情",
+  "description": "星光哥哥蹲酱贴贴",
+  "version": "1.0.0",
+  "sts_version": "07-17-2019",
+  "mts_version": "3.8.3",
+  "dependencies": ["basemod"]
+}

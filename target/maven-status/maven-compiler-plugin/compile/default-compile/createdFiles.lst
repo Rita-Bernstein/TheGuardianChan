@@ -11,7 +11,6 @@ TheGuardianChan\patches\OrbPatches.class
 TheGuardianChan\patches\HexaghostPatch$PatchHexaghostOrbConstructor.class
 TheGuardianChan\patches\HexaghostPatch.class
 guardian\cards\FloatingOrbs.class
-TheGuardianChan\patches\HexaghostPatch$PatchHexaghostField.class
 TheGuardianChan\patches\HexaghostPatch$1.class
 guardian\cards\Gem_Fragmented.class
 TheGuardianChan\patches\CharacterSelectScreenPatches$CharacterSelectScreenPatch_Render.class

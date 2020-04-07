@@ -11,7 +11,6 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.exordium.Hexaghost;
 import com.megacrit.cardcrawl.monsters.exordium.HexaghostOrb;
 import javassist.CannotCompileException;
@@ -34,11 +33,11 @@ import static com.megacrit.cardcrawl.core.AbstractCreature.sr;
         method = SpirePatch.CONSTRUCTOR
 )
 public class HexaghostPatch {
-//    protected static TextureAtlas ghostSurroundAtlas = null;
-//    protected static Skeleton[] ghostSurroundSkeleton = new Skeleton[6];
-//    public static AnimationState[] ghostSurroundState = new AnimationState[6];
-//    protected static AnimationStateData[] ghostSurroundStateData = new AnimationStateData[6];
-//    protected static SkeletonData[] ghostSurroundData = new SkeletonData[6];
+    protected static TextureAtlas ghostSurroundAtlas = null;
+    protected static Skeleton[] ghostSurroundSkeleton = new Skeleton[6];
+    public static AnimationState[] ghostSurroundState = new AnimationState[6];
+    protected static AnimationStateData[] ghostSurroundStateData = new AnimationStateData[6];
+    protected static SkeletonData[] ghostSurroundData = new SkeletonData[6];
 
 			public static ExprEditor Instrument(){
 				return new ExprEditor() {
@@ -72,7 +71,7 @@ public class HexaghostPatch {
                 method.setAccessible(true);
                 method.invoke(Hexaghost, "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.atlas", "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.json", 1.0F);
 
-                loadGhostAnimation(Hexaghost);
+                loadGhostAnimation();
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
@@ -110,16 +109,16 @@ public class HexaghostPatch {
         public static SpireReturn<Void> Insert(Hexaghost Hexaghost, SpriteBatch sb) {
             try{
                 for (int i = 0; i < 6; i++) {
-                    PatchHexaghostField.ghostSurroundState.get(Hexaghost)[i].update(Gdx.graphics.getDeltaTime());
-                    PatchHexaghostField.ghostSurroundState.get(Hexaghost)[i].apply(PatchHexaghostField.ghostSurroundSkeleton.get(Hexaghost)[i]);
-                    PatchHexaghostField.ghostSurroundSkeleton.get(Hexaghost)[i].updateWorldTransform();
-                    PatchHexaghostField.ghostSurroundSkeleton.get(Hexaghost)[i].setPosition(Hexaghost.drawX + Hexaghost.animX, Hexaghost.drawY + Hexaghost.animY);
-                    PatchHexaghostField.ghostSurroundSkeleton.get(Hexaghost)[i].setColor(Hexaghost.tint.color);
-                    PatchHexaghostField.ghostSurroundSkeleton.get(Hexaghost)[i].setFlip(Hexaghost.flipHorizontal, Hexaghost.flipVertical);
+                    ghostSurroundState[i].update(Gdx.graphics.getDeltaTime());
+                    ghostSurroundState[i].apply(ghostSurroundSkeleton[i]);
+                    ghostSurroundSkeleton[i].updateWorldTransform();
+                    ghostSurroundSkeleton[i].setPosition(Hexaghost.drawX + Hexaghost.animX, Hexaghost.drawY + Hexaghost.animY);
+                    ghostSurroundSkeleton[i].setColor(Hexaghost.tint.color);
+                    ghostSurroundSkeleton[i].setFlip(Hexaghost.flipHorizontal, Hexaghost.flipVertical);
                 }
                 sb.end();
                 CardCrawlGame.psb.begin();
-                for (int i = 0; i < 6; i++) {sr.draw(CardCrawlGame.psb, PatchHexaghostField.ghostSurroundSkeleton.get(Hexaghost)[i]);}
+                for (int i = 0; i < 6; i++) {sr.draw(CardCrawlGame.psb, ghostSurroundSkeleton[i]);}
                 CardCrawlGame.psb.end();
                 sb.begin();
             }
@@ -128,18 +127,6 @@ public class HexaghostPatch {
             }
             return SpireReturn.Continue();
         }
-    }
-
-    @SpirePatch(
-            clz = Hexaghost.class,
-            method=SpirePatch.CLASS
-    )public static class PatchHexaghostField {
-
-        public static SpireField<TextureAtlas> ghostSurroundAtlas = new SpireField<>(() -> null);
-        public static SpireField<Skeleton[]> ghostSurroundSkeleton = new SpireField<>(() -> new Skeleton[6]);
-        public static SpireField<AnimationState[]> ghostSurroundState = new SpireField<>(() -> new AnimationState[6]);
-        public static SpireField<AnimationStateData[]> ghostSurroundStateData = new SpireField<>(() -> new AnimationStateData[6]);
-        public static SpireField<SkeletonData[]> ghostSurroundData = new SpireField<>(() -> new SkeletonData[6]);
     }
 
 
@@ -203,8 +190,8 @@ public class HexaghostPatch {
                 if(PatchHexaghostOrbField.ghostIgnite.get(HexaghostOrb)){
                     int i = PatchHexaghostOrbField.ghostIndex.get(HexaghostOrb);
                     System.out.println(i);
-                    PatchHexaghostField.ghostSurroundState.get(HexaghostOrb)[i].setAnimation(0, "fade_in", false);
-                    PatchHexaghostField.ghostSurroundState.get(HexaghostOrb)[i].addAnimation(1, "idle", true,5.0F);
+                    ghostSurroundState[i].setAnimation(0, "fade_in", false);
+                    ghostSurroundState[i].addAnimation(1, "idle", true,5.0F);
                     PatchHexaghostOrbField.ghostIgnite.set(HexaghostOrb,false);
                 }
             }
@@ -225,8 +212,8 @@ public class HexaghostPatch {
                 if(PatchHexaghostOrbField.ghostDeactivate.get(HexaghostOrb)){
                     int i = PatchHexaghostOrbField.ghostIndex.get(HexaghostOrb);
                     System.out.println(i);
-                    PatchHexaghostField.ghostSurroundState.get(HexaghostOrb)[i].setAnimation(0, "fade_out", false);
-                    PatchHexaghostField.ghostSurroundState.get(HexaghostOrb)[i].addAnimation(1, "disappear", true,5.0F);
+                    ghostSurroundState[i].setAnimation(0, "fade_out", false);
+                    ghostSurroundState[i].addAnimation(1, "disappear", true,5.0F);
                     PatchHexaghostOrbField.ghostDeactivate.set(HexaghostOrb,false);
                 }
             }
@@ -239,28 +226,28 @@ public class HexaghostPatch {
 
 
 
-    private static void loadGhostAnimation(AbstractMonster m) {
-        TextureAtlas T = new TextureAtlas(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround.atlas"));
-        PatchHexaghostField.ghostSurroundAtlas.set(m,T);
-System.out.println("+++++++++++++++++++++++++++这里loadGhostAnimation");
-        SkeletonJson json = new SkeletonJson(PatchHexaghostField.ghostSurroundAtlas.get(m));
+    private static void loadGhostAnimation() {
+        ghostSurroundAtlas = new TextureAtlas(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround.atlas"));
+
+        SkeletonJson json = new SkeletonJson(ghostSurroundAtlas);
         json.setScale(Settings.scale / 1.0F);
 //------------------------------------------------
-        PatchHexaghostField.ghostSurroundData.get(m)[0] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_7.json"));
-        PatchHexaghostField.ghostSurroundData.get(m)[1] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_9.json"));
-        PatchHexaghostField.ghostSurroundData.get(m)[2] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_6.json"));
-        PatchHexaghostField.ghostSurroundData.get(m)[3] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_3.json"));
-        PatchHexaghostField.ghostSurroundData.get(m)[4] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_1.json"));
-        PatchHexaghostField.ghostSurroundData.get(m)[5] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_4.json"));
 
+        ghostSurroundData[0] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_7.json"));
+        ghostSurroundData[1] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_9.json"));
+        ghostSurroundData[2] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_6.json"));
+        ghostSurroundData[3] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_3.json"));
+        ghostSurroundData[4] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_1.json"));
+        ghostSurroundData[5] = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround_4.json"));
 
         for (int i = 0; i < 6; i++){
-            PatchHexaghostField.ghostSurroundSkeleton.get(m)[i] = new Skeleton(PatchHexaghostField.ghostSurroundData.get(m)[i]);
-            PatchHexaghostField.ghostSurroundSkeleton.get(m)[i].setColor(Color.WHITE);
-            PatchHexaghostField.ghostSurroundStateData.get(m)[i] = new AnimationStateData(PatchHexaghostField.ghostSurroundData.get(m)[i]);
-            PatchHexaghostField.ghostSurroundState.get(m)[i] = new AnimationState(PatchHexaghostField.ghostSurroundStateData.get(m)[i]);
-            PatchHexaghostField.ghostSurroundStateData.get(m)[i].setDefaultMix(0.2F);
-            PatchHexaghostField.ghostSurroundState.get(m)[i].setAnimation(0, "disappear", true);
+            ghostSurroundSkeleton[i] = new Skeleton(ghostSurroundData[i]);
+            ghostSurroundSkeleton[i].setColor(Color.WHITE);
+
+            ghostSurroundStateData[i] = new AnimationStateData(ghostSurroundData[i]);
+            ghostSurroundState[i] = new AnimationState(ghostSurroundStateData[i]);
+            ghostSurroundStateData[i].setDefaultMix(0.2F);
+            ghostSurroundState[i].setAnimation(0, "disappear", true);
         }
     }
 }

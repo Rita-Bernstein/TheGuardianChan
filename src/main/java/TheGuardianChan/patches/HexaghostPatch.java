@@ -306,6 +306,20 @@ public class HexaghostPatch {
     }
 //    本体changestate 鬼魂同时熄灭
 
+/*
+    @SpirePatch(
+            clz = HexaghostOrb.class,
+            method = "render"
+    )
+    public static class PatchHexaghostDamage {
+        public static void Raw(CtBehavior ctMethodToPatch)throws Exception {
+            CtClass hexaGhostOrbRender = ctMethodToPatch.getDeclaringClass();
+            CtMethod newRender = CtNewMethod.make("",hexaGhostOrbRender);
+            hexaGhostOrbRender.addMethod(newRender);
+        }
+    }
+*/
+//留作以后使用
 
     private static void loadGhostAnimation(AbstractMonster m) {
         TextureAtlas T = new TextureAtlas(Gdx.files.internal("TheGuardianChan/monsters/TheHexaghostKo/surround/Hexaghost_surround.atlas"));

@@ -1,0 +1,23 @@
+{
+  "TheGuardianChan:ReSkin": {
+    "TEXT": [
+      "Skin",
+      "Original",
+      "Guardian Chan",
+      "Original",
+      "Slaifu"
+    ]
+  },
+  "TheGuardianChan:Name": {
+    "TEXT": [
+      "The Guardian",
+      "The Slimebound"
+    ]
+  },
+  "TheGuardianChan:modSettings": {
+  "TEXT": [
+    "Remove mask of Hexaghost",
+    "Remove ghost Surround Hexaghost"
+  ]
+}
+}

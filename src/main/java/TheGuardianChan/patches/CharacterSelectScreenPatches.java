@@ -38,8 +38,11 @@ public class CharacterSelectScreenPatches
 
     public static Field charInfoField;
 
-    private static Texture GuardianOriginal = new Texture(TheGuardianChan.assetPath("/img/GuardianMod/portrait.png"));
-    private static Texture GuardianChan = new Texture(TheGuardianChan.assetPath("/img/GuardianMod/portrait_waifu.png"));
+    private static Texture GuardianOriginal =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/GuardianMod/portrait.png"));
+    private static Texture GuardianChan =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/GuardianMod/portrait_waifu.png"));
+
+    private static Texture SlimeOriginal =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/Slimebound/portrait.png"));
+    private static Texture SlaifuTexture =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/Slimebound/portrait_waifu.png"));
 
 
     @SpirePatch(clz = CharacterSelectScreen.class, method = "initialize")
@@ -69,7 +72,10 @@ public class CharacterSelectScreenPatches
             {TalentCount = 1;}
 
             for (CharacterOption o : __instance.options) {
-                if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0]) && o.selected) {
+                for(int i = 0; i <= 1; i++){
+
+
+                if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[i]) && o.selected) {
 
                     TalentRight.render(sb);
                     TalentLeft.render(sb);
@@ -83,9 +89,8 @@ public class CharacterSelectScreenPatches
                     FontHelper.bannerFont.getData().setScale(0.8F);
                     FontHelper.renderFontCentered(sb, FontHelper.bannerFont, TEXT[0], Settings.WIDTH / 2.0F - 680.0F * Settings.scale, 850.0F * Settings.scale , Settings.GOLD_COLOR);
 
-                    FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, TEXT[TalentCount], Settings.WIDTH / 2.0F - 680.0F * Settings.scale, 800.0F * Settings.scale , Settings.GOLD_COLOR);
-
-
+                    FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, TEXT[TalentCount+ 2*i], Settings.WIDTH / 2.0F - 680.0F * Settings.scale, 800.0F * Settings.scale , Settings.GOLD_COLOR);
+                }
             }
         }
     }
@@ -101,7 +106,8 @@ public class CharacterSelectScreenPatches
         {
             // Update your buttons position, check if the player clicked them, and do something if they did
             for (CharacterOption o : __instance.options) {
-                if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0]) && o.selected) {
+                for(int i = 0; i <= 1; i++){
+                if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[i]) && o.selected) {
 
 
                     if (InputHelper.justClickedLeft && TalentLeft.hovered) {
@@ -120,27 +126,62 @@ public class CharacterSelectScreenPatches
                     if (!(TalentCount == 1 ||TalentCount == 2 ))
                     {TalentCount = 1;}
 
-                    if(TheGuardianChan.GuardianOriginalAnimation ){
-                        if(TalentCount != 1){
-                            TalentCount = 1;
-                            __instance.bgCharImg = updateBgImg();
-                        }
-                    }else {
-                        if(TalentCount != 2){
-                            TalentCount = 2;
-                            __instance.bgCharImg = updateBgImg();
-                        }
+
+
+
+                    switch (i){
+                        case 0 :
+                            if(TheGuardianChan.GuardianOriginalAnimation ){
+                                if(TalentCount != 1){
+                                    TalentCount = 1;
+                                    __instance.bgCharImg = updateBgImg(i);
+                                }
+                            }else {
+                                if(TalentCount != 2){
+                                    TalentCount = 2;
+                                    __instance.bgCharImg = updateBgImg(i);
+                                }
+                            }
+                            if(TalentCount == 1 && TheGuardianChan.GuardianOriginalAnimation){
+                                if(__instance.bgCharImg != GuardianOriginal ){
+                                    __instance.bgCharImg = GuardianOriginal;
+                                }
+                            }
+                            if(TalentCount == 2 && (!TheGuardianChan.GuardianOriginalAnimation)){
+                                if(__instance.bgCharImg != GuardianChan ){
+                                    __instance.bgCharImg = GuardianChan;
+                                }
+                            }
+                            break;
+
+                        case 1:
+                            if(TheGuardianChan.SlimeOriginalAnimation ){
+                                if(TalentCount != 1){
+                                    TalentCount = 1;
+                                    __instance.bgCharImg = updateBgImg(i);
+                                }
+                            }else {
+                                if(TalentCount != 2){
+                                    TalentCount = 2;
+                                    __instance.bgCharImg = updateBgImg(i);
+                                }
+                            }
+                            if(TalentCount == 1 && TheGuardianChan.SlimeOriginalAnimation){
+                                if(__instance.bgCharImg != SlimeOriginal ){
+                                    __instance.bgCharImg = SlimeOriginal;
+                                }
+                            }
+                            if(TalentCount == 2 && (!TheGuardianChan.SlimeOriginalAnimation)){
+                                if(__instance.bgCharImg != SlaifuTexture ){
+                                    __instance.bgCharImg = SlaifuTexture;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
-                    if(TalentCount == 1 && TheGuardianChan.GuardianOriginalAnimation){
-                        if(__instance.bgCharImg != GuardianOriginal ){
-                            __instance.bgCharImg = GuardianOriginal;
-                        }
-                    }
-                    if(TalentCount == 2 && (!TheGuardianChan.GuardianOriginalAnimation)){
-                        if(__instance.bgCharImg != GuardianChan ){
-                            __instance.bgCharImg = GuardianChan;
-                        }
-                    }
+
+//==================================
 
 
 
@@ -152,7 +193,7 @@ public class CharacterSelectScreenPatches
                             } else {
                                 TalentCount = 1;
                             }
-                            __instance.bgCharImg = updateBgImg();
+                            __instance.bgCharImg = updateBgImg(i);
                         }
 
                         if(TalentLeft.clicked || CInputActionSet.pageRightViewExhaust.isJustPressed()){
@@ -162,29 +203,51 @@ public class CharacterSelectScreenPatches
                             } else {
                                 TalentCount = 2;
                             }
-                            __instance.bgCharImg = updateBgImg();
+                            __instance.bgCharImg = updateBgImg(i);
                         }
 
 
                     TalentLeft.update();
                     TalentRight.update();
-                }}
+                }
+            }
+            }
         }
     }
 
 
-    public static Texture updateBgImg(){
-        switch (TalentCount ){
-            case 1:
-                TheGuardianChan.GuardianOriginalAnimation = true;
-                TheGuardianChan.saveSettings();
-                return GuardianOriginal;
-            case 2:
-                TheGuardianChan.GuardianOriginalAnimation = false;
-                TheGuardianChan.saveSettings();
-                return GuardianChan;
-            default:
-                return GuardianOriginal;
+    public static Texture updateBgImg(int selectedCharCount){
+        if(selectedCharCount == 0){
+            switch (TalentCount ){
+                case 1:
+                    TheGuardianChan.GuardianOriginalAnimation = true;
+                    TheGuardianChan.saveSettings();
+                    return GuardianOriginal;
+                case 2:
+                    TheGuardianChan.GuardianOriginalAnimation = false;
+                    TheGuardianChan.saveSettings();
+                    return GuardianChan;
+                default:
+                    return GuardianOriginal;
+            }
         }
-    }
+        else if (selectedCharCount == 1){
+            switch (TalentCount ){
+                case 1:
+                    TheGuardianChan.SlimeOriginalAnimation = true;
+                    TheGuardianChan.saveSettings();
+                    return SlimeOriginal;
+                case 2:
+                    TheGuardianChan.SlimeOriginalAnimation = false;
+                    TheGuardianChan.saveSettings();
+                    return SlaifuTexture;
+                default:
+                    return SlimeOriginal;
+            }
+        }else {
+            return null;
+        }
+
+        }
+
 }

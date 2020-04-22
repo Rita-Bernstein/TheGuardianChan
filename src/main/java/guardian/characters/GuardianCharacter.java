@@ -118,10 +118,15 @@ public class GuardianCharacter extends CustomPlayer {
                     this.state.setAnimation(0, "defensive", true);
 
                     inDefensive = true;
-                }else {                CardCrawlGame.sound.play("GUARDIAN_ROLL_UP");
-                    this.stateData.setMix("idle", "transition", 0.2F);this.state.setTimeScale(0.75F);
-                    this.state.setAnimation(0, "transition", false);this.stateData.setMix("idle", "defensive", 0.2F);this.state.setTimeScale(2.0F);
-                    this.state.addAnimation(0, "defensive", true, 0.0F);
+                }else {
+                    CardCrawlGame.sound.play("GUARDIAN_ROLL_UP");
+                    reloadAnimation();
+                    this.state.setTimeScale(2.0F);
+                    this.state.setAnimation(0, "transition", false);
+                    this.state.addAnimation(0, "defensive", true,0.0f);
+//                    this.stateData.setMix("idle", "defensive", 0.2F);
+//                    this.state.setTimeScale(2.0F);
+//                    this.state.addAnimation(0, "defensive", true, 0.0F);
 
                     inDefensive = true;}
             }

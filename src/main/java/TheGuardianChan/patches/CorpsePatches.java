@@ -18,10 +18,15 @@ import static TheGuardianChan.TheGuardianChan.*;
 
 public class CorpsePatches
 {
-    private static Texture patchShoulderImg = ImageMaster.loadImage("TheGuardianChan/img/GuardianMod/shoulder.png");
-    private static Texture patchShoulderImg2 = ImageMaster.loadImage("TheGuardianChan/img/GuardianMod/shoulder2.png");
-    private static Texture originalShoulderImg = ImageMaster.loadImage("GuardianImages/char/shoulder.png");
-    private static Texture originalShoulderImg2 = ImageMaster.loadImage("GuardianImages/char/shoulder2.png");
+    private static Texture guardianPatchShoulderImg = ImageMaster.loadImage("TheGuardianChan/img/GuardianMod/shoulder.png");
+    private static Texture guardianPatchShoulderImg2 = ImageMaster.loadImage("TheGuardianChan/img/GuardianMod/shoulder2.png");
+    private static Texture guardianOriginalShoulderImg = ImageMaster.loadImage("GuardianImages/char/shoulder.png");
+    private static Texture guardianOriginalShoulderImg2 = ImageMaster.loadImage("GuardianImages/char/shoulder2.png");
+
+    private static Texture slimePatchShoulderImg = ImageMaster.loadImage("TheGuardianChan/img/Slimebound/shoulder.png");
+    private static Texture slimePatchShoulderImg2 = ImageMaster.loadImage("TheGuardianChan/img/Slimebound/shoulder2.png");
+    private static Texture slimeOriginalShoulderImg = ImageMaster.loadImage("SlimeboundImages/char/shoulder.png");
+    private static Texture slimeOriginalShoulderImg2 = ImageMaster.loadImage("SlimeboundImages/char/shoulder2.png");
 
     @SpirePatch(clz = AbstractPlayer.class,method = "playDeathAnimation")
     public static class CorpseImgPatch{
@@ -35,6 +40,14 @@ public class CorpsePatches
                     _instance.img = ImageMaster.loadImage("GuardianImages/char/corpse.png");
                 }
             }
+            if(AbstractDungeon.player.getClass().getName().contains("SlimeboundCharacter")){
+                if(!SlimeOriginalAnimation){
+                    _instance.img = ImageMaster.loadImage("TheGuardianChan/img/Slimebound/corpse.png");
+                }else {
+                    _instance.img = ImageMaster.loadImage("SlimeboundImages/char/corpse.png");
+                }
+            }
+
             return SpireReturn.Continue();
         }
     }
@@ -46,15 +59,33 @@ public class CorpsePatches
             if(AbstractDungeon.player.getClass().getName().contains("GuardianCharacter")){
                 if(!GuardianOriginalAnimation){
                     if (CampfireUI.hidden) {
-                        sb.draw(patchShoulderImg2, 0.0F, 0.0F, (float) Settings.WIDTH, 1136.0F * Settings.scale);
+                        sb.draw(guardianPatchShoulderImg2, 0.0F, 0.0F, (float) Settings.WIDTH, 1136.0F * Settings.scale);
                     } else {
-                        sb.draw(patchShoulderImg, _instance.animX, 0.0F, (float)Settings.WIDTH, 1136.0F * Settings.scale);
+                        sb.draw(guardianPatchShoulderImg, _instance.animX, 0.0F, (float)Settings.WIDTH, 1136.0F * Settings.scale);
                     }
                 }else {
                     if (CampfireUI.hidden) {
-                        sb.draw(originalShoulderImg2, 0.0F, 0.0F, (float) Settings.WIDTH, 1136.0F * Settings.scale);
+                        sb.draw(guardianOriginalShoulderImg2, 0.0F, 0.0F, (float) Settings.WIDTH, 1136.0F * Settings.scale);
                     } else {
-                        sb.draw(originalShoulderImg, _instance.animX, 0.0F, (float)Settings.WIDTH, 1136.0F * Settings.scale);
+                        sb.draw(guardianOriginalShoulderImg, _instance.animX, 0.0F, (float)Settings.WIDTH, 1136.0F * Settings.scale);
+                    }
+                }
+
+                return SpireReturn.Return(null);
+            }
+
+            if(AbstractDungeon.player.getClass().getName().contains("SlimeboundCharacter")){
+                if(!SlimeOriginalAnimation){
+                    if (CampfireUI.hidden) {
+                        sb.draw(slimePatchShoulderImg2, 0.0F, 0.0F, (float) Settings.WIDTH, 1136.0F * Settings.scale);
+                    } else {
+                        sb.draw(slimePatchShoulderImg, _instance.animX, 0.0F, (float)Settings.WIDTH, 1136.0F * Settings.scale);
+                    }
+                }else {
+                    if (CampfireUI.hidden) {
+                        sb.draw(slimeOriginalShoulderImg2, 0.0F, 0.0F, (float) Settings.WIDTH, 1136.0F * Settings.scale);
+                    } else {
+                        sb.draw(slimeOriginalShoulderImg, _instance.animX, 0.0F, (float)Settings.WIDTH, 1136.0F * Settings.scale);
                     }
                 }
 

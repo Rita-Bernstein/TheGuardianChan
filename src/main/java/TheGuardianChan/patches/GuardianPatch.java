@@ -130,9 +130,7 @@ public class GuardianPatch {
                 Field stateDataField = AbstractCreature.class.getDeclaredField("stateData");
                 stateDataField.setAccessible(true);
                 AnimationStateData stateData = (AnimationStateData) stateDataField.get(guardian);
-
-                stateData.setMix("idle", "destroy", 1.0F);
-                guardian.state.setAnimation(0, "destroy", true);
+                guardian.state.setAnimation(1, "turn_red", false);
             } catch (Exception e) {
                 e.printStackTrace();
             }

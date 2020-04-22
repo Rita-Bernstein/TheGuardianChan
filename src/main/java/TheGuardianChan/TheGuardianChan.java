@@ -1,5 +1,6 @@
 package TheGuardianChan;
 
+import TheGuardianChan.helpers.AssetLoader;
 import basemod.BaseMod;
 import basemod.ModLabeledToggleButton;
 import basemod.ModPanel;
@@ -43,11 +44,17 @@ public class TheGuardianChan
     public static final String DESCRIPTION = "";
 
     public static boolean GuardianOriginalAnimation = true;
+    public static boolean SlimeOriginalAnimation = true;
+    public static boolean hexaghostMask = false;
+    public static boolean hexaghostSurroundDisplay = false;
 
     public static Properties TheGuardianChanDefaults = new Properties();
 
     public static boolean foundmod_GuardianMod = false;
     public static final Logger logger = LogManager.getLogger(TheGuardianChan.class.getSimpleName());
+
+
+    public static AssetLoader assets = new AssetLoader();
 
     @SuppressWarnings("unused")
     public static void initialize() {   new TheGuardianChan();
@@ -81,21 +88,36 @@ public class TheGuardianChan
     public void receiveEditStrings() {
         String language;
         language = getLanguageString();
-
-
-        String uiStrings = Gdx.files.internal("TheGuardianChan/localization/" + language + "/GuardianChan-UIStrings.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        String powerStrings = Gdx.files.internal("TheGuardianChan/localization/" + language + "/PowerStrings.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        BaseMod.loadCustomStrings(PowerStrings.class, powerStrings);
+        String uiStrings = Gdx.files.internal("TheGuardianChan/localization/" + language + "/UIStrings.json").readString(String.valueOf(StandardCharsets.UTF_8));
         BaseMod.loadCustomStrings(UIStrings.class, uiStrings);
     }
 
     @Override
     public void receivePostInitialize() {
         loadSettings();
+        Texture badgeTexture = new Texture(assetPath("/img/badge.png"));
+        ModPanel settingsPanel = new ModPanel();
+        BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
+
+        ModLabeledToggleButton hexaghostMaskSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[0],400.0f, 720.0f, Settings.CREAM_COLOR, FontHelper.charDescFont,hexaghostMask, settingsPanel,
+                (label) -> {}, (button) -> {hexaghostMask = button.enabled;saveSettings();});
+        ModLabeledToggleButton hexaghostSurroundDisplaySwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[1],400.0f, 660.0f, Settings.CREAM_COLOR, FontHelper.charDescFont,hexaghostSurroundDisplay, settingsPanel,
+                (label) -> {}, (button) -> {hexaghostSurroundDisplay = button.enabled;saveSettings();});
+
+        settingsPanel.addUIElement(hexaghostMaskSwitch);
+        settingsPanel.addUIElement(hexaghostSurroundDisplaySwitch);
+
     }
 
     public static void saveSettings() {
         try {
             SpireConfig config = new SpireConfig("TheGuardianChanFix", "settings",TheGuardianChanDefaults);
             config.setBool("GuardianOriginalAnimation", GuardianOriginalAnimation);
+            config.setBool("SlimeOriginalAnimation", SlimeOriginalAnimation);
+            config.setBool("hexaghostMask", hexaghostMask);
+            config.setBool("hexaghostSurroundDisplay", hexaghostSurroundDisplay);
             config.save();
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,6 +129,9 @@ public class TheGuardianChan
             SpireConfig config = new SpireConfig("TheGuardianChanFix", "settings",TheGuardianChanDefaults);
             config.load();
             GuardianOriginalAnimation = config.getBool("GuardianOriginalAnimation");
+            SlimeOriginalAnimation = config.getBool("SlimeOriginalAnimation");
+            hexaghostMask = config.getBool("hexaghostMask");
+            hexaghostSurroundDisplay = config.getBool("hexaghostSurroundDisplay");
         } catch (Exception e) {
             e.printStackTrace();
             clearSettings();

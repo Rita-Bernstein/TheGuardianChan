@@ -25,6 +25,7 @@ import guardian.characters.GuardianCharacter;
 
 import java.lang.reflect.Field;
 
+import static TheGuardianChan.TheGuardianChan.disablePortraitAnimation;
 import static com.megacrit.cardcrawl.core.AbstractCreature.sr;
 
 
@@ -46,6 +47,7 @@ public class CharacterSelectScreenPatches
 
     private static Texture GuardianOriginal =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/GuardianMod/portrait.png"));
     private static Texture GuardianChan =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/GuardianMod/portrait_waifu.png"));
+    private static Texture GuardianChan2 =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/GuardianMod/portrait_waifu2.png"));
 
     private static Texture SlimeOriginal =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/Slimebound/portrait.png"));
     private static Texture SlaifuTexture =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/Slimebound/portrait_waifu.png"));
@@ -70,7 +72,7 @@ public class CharacterSelectScreenPatches
             TalentRight.move(Settings.WIDTH / 2.0F - Talent_RIGHT_W / 2.0F - 550.0F * Settings.scale + 16.0f*Settings.scale + X_fixed, 800.0F * Settings.scale);
             TalentLeft.move(Settings.WIDTH / 2.0F - Talent_LEFT_W / 2.0F - 800.0F * Settings.scale + 16.0f*Settings.scale + X_fixed, 800.0F * Settings.scale);
 
-//            loadPortraitAnimation();
+
 
         }
     }
@@ -147,7 +149,7 @@ public class CharacterSelectScreenPatches
                 for(int i = 0; i <= 1; i++){
 
 
-                    if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0]) && o.selected && TalentCount == 2 ) {
+                    if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0]) && o.selected && TalentCount == 2 && !disablePortraitAnimation) {
 
                         portraitState.update(Gdx.graphics.getDeltaTime());
                         portraitState.apply(portraitSkeleton);
@@ -162,7 +164,10 @@ public class CharacterSelectScreenPatches
                     CardCrawlGame.psb.end();
                     sb.begin();
 
-                    sb.draw(portraitFix, Settings.WIDTH / 2.0F - 960.0F, Settings.HEIGHT / 2.0F - 600.0F, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1200, false, false);
+                    if(!disablePortraitAnimation){
+                        sb.draw(portraitFix, Settings.WIDTH / 2.0F - 960.0F, Settings.HEIGHT / 2.0F - 600.0F, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1200, false, false);
+                    }
+
                     }
                 }
             }
@@ -179,7 +184,7 @@ public class CharacterSelectScreenPatches
         @SpireInsertPatch(rloc = 56)
         public static void Insert(CharacterOption __instance)
         {
-            if(__instance.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0])){
+            if(__instance.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0]) && !disablePortraitAnimation){
                 loadPortraitAnimation();
             }
         }
@@ -203,14 +208,14 @@ public class CharacterSelectScreenPatches
                     if (InputHelper.justClickedLeft && TalentLeft.hovered) {
                         TalentLeft.clickStarted = true;
                         CardCrawlGame.sound.play("UI_CLICK_1");
-                        if(TalentCount == 1){
+                        if(TalentCount == 1 && !disablePortraitAnimation){
                             loadPortraitAnimation();
                         }
                     }
                     if (InputHelper.justClickedLeft && TalentRight.hovered) {
                         TalentRight.clickStarted = true;
                         CardCrawlGame.sound.play("UI_CLICK_1");
-                        if(TalentCount == 1){
+                        if(TalentCount == 1 && !disablePortraitAnimation ){
                             loadPortraitAnimation();
                         }
                     }
@@ -244,9 +249,16 @@ public class CharacterSelectScreenPatches
                                 }
                             }
                             if(TalentCount == 2 && (!TheGuardianChan.GuardianOriginalAnimation)){
-                                if(__instance.bgCharImg != GuardianChan ){
-                                    __instance.bgCharImg = GuardianChan;
+                                if(disablePortraitAnimation){
+                                    if(__instance.bgCharImg != GuardianChan ){
+                                        __instance.bgCharImg = GuardianChan;
+                                    }
+                                }else {
+                                    if(__instance.bgCharImg != GuardianChan2 ){
+                                        __instance.bgCharImg = GuardianChan2;
+                                    }
                                 }
+
                             }
                             break;
 
@@ -322,7 +334,12 @@ public class CharacterSelectScreenPatches
                 case 2:
                     TheGuardianChan.GuardianOriginalAnimation = false;
                     TheGuardianChan.saveSettings();
-                    return GuardianChan;
+                    if(disablePortraitAnimation){
+                        return GuardianChan;
+                    }else {
+                        return GuardianChan2;
+                    }
+
                 default:
                     return GuardianOriginal;
             }

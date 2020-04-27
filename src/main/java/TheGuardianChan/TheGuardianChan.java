@@ -47,6 +47,7 @@ public class TheGuardianChan
     public static boolean SlimeOriginalAnimation = true;
     public static boolean hexaghostMask = false;
     public static boolean hexaghostSurroundDisplay = false;
+    public static boolean disablePortraitAnimation = false;
 
     public static Properties TheGuardianChanDefaults = new Properties();
 
@@ -111,9 +112,12 @@ public class TheGuardianChan
                 (label) -> {}, (button) -> {hexaghostMask = button.enabled;saveSettings();});
         ModLabeledToggleButton hexaghostSurroundDisplaySwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[1],400.0f, 660.0f, Settings.CREAM_COLOR, FontHelper.charDescFont,hexaghostSurroundDisplay, settingsPanel,
                 (label) -> {}, (button) -> {hexaghostSurroundDisplay = button.enabled;saveSettings();});
+        ModLabeledToggleButton disablePortraitAnimationSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[2],400.0f, 600.0f, Settings.CREAM_COLOR, FontHelper.charDescFont,disablePortraitAnimation, settingsPanel,
+                (label) -> {}, (button) -> {disablePortraitAnimation = button.enabled;saveSettings();});
 
         settingsPanel.addUIElement(hexaghostMaskSwitch);
         settingsPanel.addUIElement(hexaghostSurroundDisplaySwitch);
+        settingsPanel.addUIElement(disablePortraitAnimationSwitch);
 
     }
 
@@ -124,6 +128,7 @@ public class TheGuardianChan
             config.setBool("SlimeOriginalAnimation", SlimeOriginalAnimation);
             config.setBool("hexaghostMask", hexaghostMask);
             config.setBool("hexaghostSurroundDisplay", hexaghostSurroundDisplay);
+            config.setBool("disablePortraitAnimation", disablePortraitAnimation);
             config.save();
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,6 +143,7 @@ public class TheGuardianChan
             SlimeOriginalAnimation = config.getBool("SlimeOriginalAnimation");
             hexaghostMask = config.getBool("hexaghostMask");
             hexaghostSurroundDisplay = config.getBool("hexaghostSurroundDisplay");
+            disablePortraitAnimation = config.getBool("disablePortraitAnimation");
         } catch (Exception e) {
             e.printStackTrace();
             clearSettings();

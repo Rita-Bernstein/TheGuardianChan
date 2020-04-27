@@ -1,0 +1,23 @@
+{
+  "TheGuardianChan:ReSkin": {
+    "TEXT": [
+      "Skin",
+      "オリジナル",
+      "コアちゃん",
+      "オリジナル",
+      "スライム娘"
+    ]
+  },
+  "TheGuardianChan:Name": {
+    "TEXT": [
+      "The Guardian",
+      "スライムバウンド"
+    ]
+  },
+  "TheGuardianChan:modSettings": {
+  "TEXT": [
+    "Remove mask of Hexaghost",
+    "Remove ghost Surround Hexaghost"
+  ]
+}
+}

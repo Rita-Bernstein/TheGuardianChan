@@ -312,7 +312,7 @@ public class SlimeboundCharacter extends CustomPlayer {
             this.animationScaleX = 1.0f;
             this.animationScaleY = 1.0f;
 
-            this.hatX = this.skeleton.findBone("eyeback1").getX() + this.skeleton.findBone("body").getX() ;
+            this.hatX = this.skeleton.findBone("eyeback1").getX() + this.skeleton.findBone("body").getX();
             this.hatY = this.skeleton.findBone("eyeback1").getY() + this.skeleton.findBone("body").getY();
         }
         this.animationAngle = this.skeleton.findBone("eyeback1").getRotation() ;

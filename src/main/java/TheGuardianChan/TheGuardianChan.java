@@ -75,8 +75,14 @@ public class TheGuardianChan
             case ZHS:
                 language = "zhs";
                 break;
+            case ZHT:
+                language = "zht";
+                break;
             case KOR:
                 language = "kor";
+                break;
+            case JPN:
+                language = "jpn";
                 break;
             default:
                 language = "eng";

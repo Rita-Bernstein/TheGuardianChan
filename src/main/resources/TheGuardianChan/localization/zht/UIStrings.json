@@ -1,0 +1,23 @@
+{
+  "TheGuardianChan:ReSkin": {
+    "TEXT": [
+      "皮膚",
+      "原版",
+      "蹲醬",
+      "原版",
+      " 史萊姆娘"
+    ]
+  },
+  "TheGuardianChan:Name": {
+    "TEXT": [
+      "守護者",
+      "黏黏史萊姆"
+    ]
+  },
+  "TheGuardianChan:modSettings": {
+    "TEXT": [
+      "去除六火的面具",
+      "去除六火周圍的鬼魂"
+    ]
+  }
+}

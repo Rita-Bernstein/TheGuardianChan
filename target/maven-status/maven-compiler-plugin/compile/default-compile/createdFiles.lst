@@ -6,7 +6,6 @@ slimebound\characters\SlimeboundCharacter.class
 TheGuardianChan\patches\CorpsePatches$CorpseImgPatch.class
 TheGuardianChan\patches\CorpsePatches.class
 TheGuardianChan\patches\SlimeBossPatch$AcidSlime_SPatch.class
-TheGuardianChan\patches\AbstractPlayerEnum.class
 TheGuardianChan\patches\SlimeBossPatch$SpikeSlime_LPatch.class
 TheGuardianChan\powers\SayaPower.class
 TheGuardianChan\patches\HexaghostPatch$PatchHexaghostOrbFadeOut.class
@@ -22,6 +21,7 @@ slimebound\orbs\CultistSlime.class
 TheGuardianChan\patches\CharacterSelectScreenPatches$CharacterSelectScreenPatch_Initialize.class
 guardian\cards\SentryBeam.class
 TheGuardianChan\patches\HexaghostPatch$PatchRender.class
+TheGuardianChan\patches\GuardianEnum.class
 guardian\cards\SentryWave.class
 TheGuardianChan\patches\HexaghostPatch$PatchChangeState.class
 TheGuardianChan\patches\HexaghostPatch$PatchHexaghostOrbField.class
@@ -41,6 +41,7 @@ TheGuardianChan\patches\OrbPatches.class
 TheGuardianChan\patches\HexaghostPatch.class
 TheGuardianChan\patches\SlimeBossPatch.class
 TheGuardianChan\patches\HexaghostPatch$PatchHexaghostField.class
+TheGuardianChan\patches\CharacterSelectScreenPatches$CharacterOptionPatch_reloadAnimation.class
 guardian\cards\Gem_Fragmented.class
 TheGuardianChan\patches\CharacterSelectScreenPatches$CharacterSelectScreenPatch_Render.class
 guardian\cards\Strike_Guardian.class
@@ -50,6 +51,7 @@ TheGuardianChan\patches\CorpsePatches$ShoulderImgPatch.class
 guardian\cards\PolyBeam.class
 TheGuardianChan\actions\SayaReloadAnimationAction.class
 TheGuardianChan\patches\CharacterSelectScreenPatches$CharacterSelectScreenPatch_Update.class
+TheGuardianChan\patches\CharacterSelectScreenPatches$CharacterSelectScreenPatch_portraitSkeleton.class
 TheGuardianChan\patches\OrbPatches$SetSlotPatch.class
 TheGuardianChan\actions\SayaAction.class
 slimebound\vfx\TinyHatParticle.class

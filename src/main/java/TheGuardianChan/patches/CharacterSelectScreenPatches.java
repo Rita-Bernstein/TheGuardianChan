@@ -2,10 +2,14 @@ package TheGuardianChan.patches;
 
 import TheGuardianChan.TheGuardianChan;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.esotericsoftware.spine.*;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
@@ -20,6 +24,8 @@ import guardian.characters.GuardianCharacter;
 
 
 import java.lang.reflect.Field;
+
+import static com.megacrit.cardcrawl.core.AbstractCreature.sr;
 
 
 @SuppressWarnings("unused")
@@ -44,6 +50,13 @@ public class CharacterSelectScreenPatches
     private static Texture SlimeOriginal =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/Slimebound/portrait.png"));
     private static Texture SlaifuTexture =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/Slimebound/portrait_waifu.png"));
 
+    private static Texture  portraitFix =  ImageMaster.loadImage(TheGuardianChan.assetPath("/img/GuardianMod/portrait_waifu_fix.png"));
+
+    private static TextureAtlas portraitAtlas = null ;
+    private static Skeleton portraitSkeleton;
+    private static AnimationState portraitState ;
+    private static AnimationStateData portraitStateData;
+    private static SkeletonData portraitData;
 
     @SpirePatch(clz = CharacterSelectScreen.class, method = "initialize")
     public static class CharacterSelectScreenPatch_Initialize
@@ -57,9 +70,30 @@ public class CharacterSelectScreenPatches
             TalentRight.move(Settings.WIDTH / 2.0F - Talent_RIGHT_W / 2.0F - 550.0F * Settings.scale + 16.0f*Settings.scale + X_fixed, 800.0F * Settings.scale);
             TalentLeft.move(Settings.WIDTH / 2.0F - Talent_LEFT_W / 2.0F - 800.0F * Settings.scale + 16.0f*Settings.scale + X_fixed, 800.0F * Settings.scale);
 
+//            loadPortraitAnimation();
 
         }
     }
+//载入动态立绘
+    private static void loadPortraitAnimation() {
+        portraitAtlas = new TextureAtlas(Gdx.files.internal("TheGuardianChan/img/GuardianMod/animation/GuardianChan_portrait.atlas"));
+        SkeletonJson json = new SkeletonJson(portraitAtlas);
+        json.setScale(Settings.scale / 1.0F);
+        portraitData = json.readSkeletonData(Gdx.files.internal("TheGuardianChan/img/GuardianMod/animation/GuardianChan_portrait.json"));
+
+
+        portraitSkeleton = new Skeleton(portraitData);
+        portraitSkeleton.setColor(Color.WHITE);
+        portraitStateData = new AnimationStateData(portraitData);
+        portraitState = new AnimationState(portraitStateData);
+        portraitStateData.setDefaultMix(0.2F);
+
+        portraitState.setTimeScale(0.5f);
+        portraitState.setAnimation(1, "fade_in", false);
+        portraitState.addAnimation(0, "idle", true,0.0f);
+    }
+
+
 
     @SpirePatch(clz = CharacterSelectScreen.class, method = "render")
     public static class CharacterSelectScreenPatch_Render
@@ -90,10 +124,66 @@ public class CharacterSelectScreenPatches
                     FontHelper.renderFontCentered(sb, FontHelper.bannerFont, TEXT[0], Settings.WIDTH / 2.0F - 680.0F * Settings.scale, 850.0F * Settings.scale , Settings.GOLD_COLOR);
 
                     FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, TEXT[TalentCount+ 2*i], Settings.WIDTH / 2.0F - 680.0F * Settings.scale, 800.0F * Settings.scale , Settings.GOLD_COLOR);
+
                 }
             }
         }
     }
+
+    }
+
+    //                动态立绘
+    @SpirePatch(clz = CharacterSelectScreen.class, method = "render")
+    public static class CharacterSelectScreenPatch_portraitSkeleton
+    {
+        @SpireInsertPatch(rloc = 45)
+        public static void Insert(CharacterSelectScreen __instance, SpriteBatch sb)
+        {
+            // Render your buttons/images by passing SpriteBatch
+            if (!(TalentCount == 1 ||TalentCount == 2 ))
+            {TalentCount = 1;}
+
+            for (CharacterOption o : __instance.options) {
+                for(int i = 0; i <= 1; i++){
+
+
+                    if (o.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0]) && o.selected && TalentCount == 2 ) {
+
+                        portraitState.update(Gdx.graphics.getDeltaTime());
+                        portraitState.apply(portraitSkeleton);
+                        portraitSkeleton.updateWorldTransform();
+                        portraitSkeleton.setPosition(1092.0f * Settings.scale,Settings.HEIGHT- 1032.0f * Settings.scale);
+                        portraitSkeleton.setColor(Color.WHITE);
+                        portraitSkeleton.setFlip(false,false);
+
+                    sb.end();
+                    CardCrawlGame.psb.begin();
+                    sr.draw(CardCrawlGame.psb, portraitSkeleton);
+                    CardCrawlGame.psb.end();
+                    sb.begin();
+
+                    sb.draw(portraitFix, Settings.WIDTH / 2.0F - 960.0F, Settings.HEIGHT / 2.0F - 600.0F, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1200, false, false);
+                    }
+                }
+            }
+        }
+
+    }
+
+//    立绘动画重置
+
+    @SpirePatch(clz = CharacterOption.class, method = "updateHitbox")
+
+    public static class CharacterOptionPatch_reloadAnimation
+    {
+        @SpireInsertPatch(rloc = 56)
+        public static void Insert(CharacterOption __instance)
+        {
+            if(__instance.name.equals(CardCrawlGame.languagePack.getUIString(TheGuardianChan.makeID("Name")).TEXT[0])){
+                loadPortraitAnimation();
+            }
+        }
+
 
     }
 
@@ -113,10 +203,16 @@ public class CharacterSelectScreenPatches
                     if (InputHelper.justClickedLeft && TalentLeft.hovered) {
                         TalentLeft.clickStarted = true;
                         CardCrawlGame.sound.play("UI_CLICK_1");
+                        if(TalentCount == 1){
+                            loadPortraitAnimation();
+                        }
                     }
                     if (InputHelper.justClickedLeft && TalentRight.hovered) {
                         TalentRight.clickStarted = true;
                         CardCrawlGame.sound.play("UI_CLICK_1");
+                        if(TalentCount == 1){
+                            loadPortraitAnimation();
+                        }
                     }
 
                     if (TalentLeft.justHovered || TalentRight.justHovered) {

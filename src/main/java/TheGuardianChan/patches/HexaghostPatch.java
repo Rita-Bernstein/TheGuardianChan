@@ -45,9 +45,13 @@ public class HexaghostPatch {
 					@Override
 					public void edit(ConstructorCall e) throws CannotCompileException
 					{
-						if (e.getFileName().equals("Hexaghost.java") && e.getMethodName().equals("super")) {
-							e.replace("{$8 = null; $proceed($$);}");
-						}
+                       TheGuardianChan.loadSettings();
+                        if(!TheGuardianChan.displaySkin_Hexaghost) {
+                            if (e.getFileName().equals("Hexaghost.java") && e.getMethodName().equals("super")) {
+                                    e.replace("{$8 = null; $proceed($$);}");
+                                }
+
+                       }
 					}
 				};
 			}
@@ -60,26 +64,27 @@ public class HexaghostPatch {
     public static class PatchConstructor {
         @SpireInsertPatch(rloc = 1)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost) {
-            try {
-                Method method = AbstractCreature.class.getDeclaredMethod("loadAnimation", String.class, String.class, float.class);
-                method.setAccessible(true);
-                float scale;
-                if(AbstractDungeon.getCurrRoom().getClass().getName().contains("FixedMonsterRoom"))
-                {
-                    scale = 2.0f;
-                }else {
-                    scale = 1.0f;
+            if(!TheGuardianChan.displaySkin_Hexaghost) {
+                try {
+                    Method method = AbstractCreature.class.getDeclaredMethod("loadAnimation", String.class, String.class, float.class);
+                    method.setAccessible(true);
+                    float scale;
+                    if (AbstractDungeon.getCurrRoom().getClass().getName().contains("FixedMonsterRoom")) {
+                        scale = 2.0f;
+                    } else {
+                        scale = 1.0f;
+                    }
+
+                    method.invoke(hexaghost, "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.atlas", "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.json", scale);
+
+                    loadGhostAnimation(hexaghost);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
                 }
-
-                method.invoke(hexaghost, "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.atlas", "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.json", scale);
-
-                loadGhostAnimation(hexaghost);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                hexaghost.dialogY = 100.0F * Settings.scale;
+                AnimationState.TrackEntry e = hexaghost.state.setAnimation(0, "disappear", true);
+                e.setTime(e.getEndTime() * MathUtils.random());
             }
-            hexaghost.dialogY = 100.0F * Settings.scale;
-            AnimationState.TrackEntry e = hexaghost.state.setAnimation(0, "disappear", true);
-            e.setTime(e.getEndTime() * MathUtils.random());
             return SpireReturn.Continue();
         }
     }
@@ -92,18 +97,19 @@ public class HexaghostPatch {
     )public static class PatchChangeState {
         @SpireInsertPatch(rloc = 8)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost, String stateName) {
-                try{
-                    if(TheGuardianChan.hexaghostMask){
+            if(!TheGuardianChan.displaySkin_Hexaghost) {
+                try {
+                    if (TheGuardianChan.hexaghostMask) {
                         hexaghost.state.setAnimation(0, "idle2_fade_in", false);
                         hexaghost.state.addAnimation(0, "idle2", true, 0.2F);
-                    }else {
+                    } else {
                         hexaghost.state.setAnimation(0, "idle2_mask_fade_in", false);
                         hexaghost.state.addAnimation(0, "idle2_mask", true, 0.2F);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e) {
-            e.printStackTrace();
-        }
+            }
             return SpireReturn.Continue();
         }
 		}
@@ -115,24 +121,27 @@ public class HexaghostPatch {
     )public static class PatchRender {
         @SpireInsertPatch(rloc = 1)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost, SpriteBatch sb) {
-            try{
+            if(!TheGuardianChan.displaySkin_Hexaghost) {
+                try {
 
-                for (int i = 0; i < 6; i++) {
-                    PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].update(Gdx.graphics.getDeltaTime());
-                    PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].apply(PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i]);
-                    PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].updateWorldTransform();
-                    PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].setPosition(hexaghost.drawX + hexaghost.animX, hexaghost.drawY + hexaghost.animY);
-                    PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].setColor(hexaghost.tint.color);
-                    PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].setFlip(hexaghost.flipHorizontal, hexaghost.flipVertical);
+                    for (int i = 0; i < 6; i++) {
+                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].update(Gdx.graphics.getDeltaTime());
+                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].apply(PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i]);
+                        PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].updateWorldTransform();
+                        PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].setPosition(hexaghost.drawX + hexaghost.animX, hexaghost.drawY + hexaghost.animY);
+                        PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].setColor(hexaghost.tint.color);
+                        PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i].setFlip(hexaghost.flipHorizontal, hexaghost.flipVertical);
+                    }
+                    sb.end();
+                    CardCrawlGame.psb.begin();
+                    for (int i = 0; i < 6; i++) {
+                        sr.draw(CardCrawlGame.psb, PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i]);
+                    }
+                    CardCrawlGame.psb.end();
+                    sb.begin();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                sb.end();
-                CardCrawlGame.psb.begin();
-                for (int i = 0; i < 6; i++) {sr.draw(CardCrawlGame.psb, PatchHexaghostField.ghostSurroundSkeleton.get(hexaghost)[i]);}
-                CardCrawlGame.psb.end();
-                sb.begin();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
             }
             return SpireReturn.Continue();
         }
@@ -142,7 +151,8 @@ public class HexaghostPatch {
     @SpirePatch(
             clz = Hexaghost.class,
             method=SpirePatch.CLASS
-    )public static class PatchHexaghostField {
+    )
+    public static class PatchHexaghostField {
 
         public static SpireField<TextureAtlas> ghostSurroundAtlas = new SpireField<>(() -> null);
         public static SpireField<Skeleton[]> ghostSurroundSkeleton = new SpireField<>(() -> new Skeleton[6]);
@@ -240,18 +250,19 @@ public class HexaghostPatch {
     )public static class PatchHexaghostActivate {
         @SpireInsertPatch(rloc = 8)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost,String stateName) {
-            try{
-                if(!TheGuardianChan.hexaghostSurroundDisplay){
-                    for (int i = 0; i < 6; i++) {
-                        System.out.println(i);
-                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].setAnimation(0, "disappear", false);
-                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "fade_in", false, i*0.3F+0.2f);
-                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "idle", true, 0.5F);
+            if(!TheGuardianChan.displaySkin_Hexaghost) {
+                try {
+                    if (!TheGuardianChan.hexaghostSurroundDisplay) {
+                        for (int i = 0; i < 6; i++) {
+                            System.out.println(i);
+                            PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].setAnimation(0, "disappear", false);
+                            PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "fade_in", false, i * 0.3F + 0.2f);
+                            PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "idle", true, 0.5F);
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
             }
             return SpireReturn.Continue();
         }
@@ -265,18 +276,20 @@ public class HexaghostPatch {
     )public static class PatchHexaghostActivateOrb {
         @SpireInsertPatch(rloc = 20)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost,String stateName) {
-            try{
 
-                Field threshold = Hexaghost.class.getDeclaredField("orbActiveCount");
-                threshold.setAccessible(true);
+            if(!TheGuardianChan.displaySkin_Hexaghost) {
+                try {
+
+                    Field threshold = Hexaghost.class.getDeclaredField("orbActiveCount");
+                    threshold.setAccessible(true);
                     int i = (int) threshold.get(hexaghost);
-                if(!TheGuardianChan.hexaghostSurroundDisplay){
-                    PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].setAnimation(0, "fade_in", false);
-                    PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "idle", true, 5.0F);
+                    if (!TheGuardianChan.hexaghostSurroundDisplay) {
+                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].setAnimation(0, "fade_in", false);
+                        PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "idle", true, 5.0F);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
             }
             return SpireReturn.Continue();
         }
@@ -289,17 +302,18 @@ public class HexaghostPatch {
     )public static class PatchHexaghostOrbFadeOut {
         @SpireInsertPatch(rloc = 33)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost,String stateName) {
-            try{
-                if(!TheGuardianChan.hexaghostSurroundDisplay){
-                for (int i = 0; i < 6; i++) {
-                    System.out.println(i);
-                    PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].setAnimation(0, "fade_out", false);
-                    PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "disappear", true, 5.0F);
+            if(!TheGuardianChan.displaySkin_Hexaghost) {
+                try {
+                    if (!TheGuardianChan.hexaghostSurroundDisplay) {
+                        for (int i = 0; i < 6; i++) {
+                            System.out.println(i);
+                            PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].setAnimation(0, "fade_out", false);
+                            PatchHexaghostField.ghostSurroundState.get(hexaghost)[i].addAnimation(0, "disappear", true, 5.0F);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
             }
             return SpireReturn.Continue();
         }

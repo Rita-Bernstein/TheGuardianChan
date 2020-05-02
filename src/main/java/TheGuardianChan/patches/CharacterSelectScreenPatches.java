@@ -164,9 +164,9 @@ public class CharacterSelectScreenPatches
                     CardCrawlGame.psb.end();
                     sb.begin();
 
-                    if(!disablePortraitAnimation){
+
                         sb.draw(portraitFix, Settings.WIDTH / 2.0F - 960.0F, Settings.HEIGHT / 2.0F - 600.0F, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1200, false, false);
-                    }
+
 
                     }
                 }

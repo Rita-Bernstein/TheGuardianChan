@@ -1,6 +1,7 @@
 package TheGuardianChan.patches;
 
 
+import TheGuardianChan.TheGuardianChan;
 import TheGuardianChan.powers.SayaPower;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
@@ -22,10 +23,12 @@ public class SneckoPatch {
     public static class PatchTakeTurn {
         @SpireInsertPatch(rloc = 8)
         public static SpireReturn<Void> Insert(Snecko snecko) {
-            try {
-                AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, snecko, new SayaPower(AbstractDungeon.player,true)));
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(!TheGuardianChan.displaySkin_Snecko){
+                try {
+                    AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, snecko, new SayaPower(AbstractDungeon.player,true)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return SpireReturn.Continue();
         }

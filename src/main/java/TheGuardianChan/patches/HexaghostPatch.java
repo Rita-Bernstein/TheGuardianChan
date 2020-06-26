@@ -64,7 +64,7 @@ public class HexaghostPatch {
     public static class PatchConstructor {
         @SpireInsertPatch(rloc = 1)
         public static SpireReturn<Void> Insert(Hexaghost hexaghost) {
-            if(!TheGuardianChan.displaySkin_Hexaghost) {
+
                 try {
                     Method method = AbstractCreature.class.getDeclaredMethod("loadAnimation", String.class, String.class, float.class);
                     method.setAccessible(true);
@@ -75,7 +75,11 @@ public class HexaghostPatch {
                         scale = 1.0f;
                     }
 
-                    method.invoke(hexaghost, "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.atlas", "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.json", scale);
+                    if(!TheGuardianChan.displaySkin_Hexaghost) {
+                        method.invoke(hexaghost, "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.atlas", "TheGuardianChan/monsters/TheHexaghostKo/self/Hexaghost_self.json", scale);
+                    }else {
+                        method.invoke(hexaghost, "TheGuardianChan/monsters/TheHexaghostKo/Hexaghost_original.atlas", "TheGuardianChan/monsters/TheHexaghostKo/Hexaghost_original.json", scale);
+                    }
 
                     loadGhostAnimation(hexaghost);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -84,7 +88,7 @@ public class HexaghostPatch {
                 hexaghost.dialogY = 100.0F * Settings.scale;
                 AnimationState.TrackEntry e = hexaghost.state.setAnimation(0, "disappear", true);
                 e.setTime(e.getEndTime() * MathUtils.random());
-            }
+
             return SpireReturn.Continue();
         }
     }

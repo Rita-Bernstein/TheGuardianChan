@@ -42,7 +42,7 @@ public class TheGuardianChan
         return MOD_ID + "/" + path;
     }
 
-    public static final String MODNAME = "TheGuardianChan";
+    public static final String MODNAME = "Waifu the Spire";
     public static final String AUTHOR = "Rita";
     public static final String DESCRIPTION = "";
 //设置用变量
@@ -128,43 +128,31 @@ public class TheGuardianChan
         ModPanel settingsPanel = new ModPanel();
         BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 
-        ModLabeledToggleButton hexaghostMaskSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[0],400.0f, 720.0f, Settings.CREAM_COLOR, FontHelper.charDescFont,hexaghostMask, settingsPanel,
-                (label) -> {}, (button) -> {hexaghostMask = button.enabled;saveSettings();});
-        ModLabeledToggleButton hexaghostSurroundDisplaySwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[1],400.0f, 720.0f-configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,hexaghostSurroundDisplay, settingsPanel,
-                (label) -> {}, (button) -> {hexaghostSurroundDisplay = button.enabled;saveSettings();});
-        ModLabeledToggleButton disablePortraitAnimationSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[2],400.0f, 720.0f-2*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,disablePortraitAnimation, settingsPanel,
-                (label) -> {}, (button) -> {disablePortraitAnimation = button.enabled;saveSettings();});
 
-        ModLabeledToggleButton displaySkin_SneckoSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(Snecko.ID).NAME,400.0f, 720.0f-4*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Snecko, settingsPanel,
+        ModLabeledToggleButton displaySkin_SneckoSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(Snecko.ID).NAME,400.0f, 720.0f-configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Snecko, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_Snecko = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_GuardianSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(TheGuardian.ID).NAME,400.0f+configColumn, 720.0f-4*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Guardian, settingsPanel,
+        ModLabeledToggleButton displaySkin_GuardianSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(TheGuardian.ID).NAME,400.0f+configColumn, 720.0f-configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Guardian, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_Guardian = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_HexaghostSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(Hexaghost.ID).NAME,400.0f+2*configColumn, 720.0f-4*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Hexaghost, settingsPanel,
+        ModLabeledToggleButton displaySkin_HexaghostSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(Hexaghost.ID).NAME,400.0f+2*configColumn, 720.0f-configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Hexaghost, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_Hexaghost = button.enabled;saveSettings();});
 
 
-        ModLabeledToggleButton displaySkin_SlimeBossSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SlimeBoss.ID).NAME,400.0f+3*configColumn, 720.0f-4*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeBoss, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeBossSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SlimeBoss.ID).NAME,400.0f+3*configColumn, 720.0f-configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeBoss, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeBoss = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_SlimeAcid_LSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(AcidSlime_L.ID).NAME,400.0f, 720.0f-5*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeAcid_L, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeAcid_LSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(AcidSlime_L.ID).NAME,400.0f, 720.0f-2*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeAcid_L, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeAcid_L = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_SlimeAcid_MSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(AcidSlime_M.ID).NAME,400.0f+configColumn, 720.0f-5*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeAcid_M, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeAcid_MSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(AcidSlime_M.ID).NAME,400.0f+configColumn, 720.0f-2*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeAcid_M, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeAcid_M = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_SlimeAcid_SSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(AcidSlime_S.ID).NAME,400.0f+2*configColumn, 720.0f-5*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeAcid_S, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeAcid_SSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(AcidSlime_S.ID).NAME,400.0f+2*configColumn, 720.0f-2*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeAcid_S, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeAcid_S = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_SlimeSpike_LSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_L.ID).NAME,400.0f, 720.0f-6*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_L, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeSpike_LSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_L.ID).NAME,400.0f, 720.0f-3*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_L, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeSpike_L = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_SlimeSpike_MSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_M.ID).NAME,400.0f+1*configColumn, 720.0f-6*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_M, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeSpike_MSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_M.ID).NAME,400.0f+1*configColumn, 720.0f-3*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_M, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeSpike_M = button.enabled;saveSettings();});
-        ModLabeledToggleButton displaySkin_SlimeSpike_SSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_S.ID).NAME,400.0f+2*configColumn, 720.0f-6*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_S, settingsPanel,
+        ModLabeledToggleButton displaySkin_SlimeSpike_SSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_S.ID).NAME,400.0f+2*configColumn, 720.0f-3*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_S, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeSpike_S = button.enabled;saveSettings();});
 
-        ModLabel displaySkinText = new ModLabel(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[3],400.0f, 720.0f-3*configRow, Settings.GOLD_COLOR, FontHelper.charDescFont,settingsPanel,(label) -> {});
-
-
-
-        settingsPanel.addUIElement(hexaghostMaskSwitch);
-        settingsPanel.addUIElement(hexaghostSurroundDisplaySwitch);
-        settingsPanel.addUIElement(disablePortraitAnimationSwitch);
+        ModLabel displaySkinText = new ModLabel(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[3],400.0f, 720.0f, Settings.GOLD_COLOR, FontHelper.charDescFont,settingsPanel,(label) -> {});
 
 
         settingsPanel.addUIElement(displaySkin_SneckoSwitch);
@@ -185,7 +173,7 @@ public class TheGuardianChan
 
     public static void saveSettings() {
         try {
-            SpireConfig config = new SpireConfig("TheGuardianChanFix", "settings",TheGuardianChanDefaults);
+            SpireConfig config = new SpireConfig("WaifuTheSpire", "settings",TheGuardianChanDefaults);
             config.setBool("GuardianOriginalAnimation", GuardianOriginalAnimation);
             config.setBool("SlimeOriginalAnimation", SlimeOriginalAnimation);
             config.setBool("hexaghostMask", hexaghostMask);
@@ -210,7 +198,7 @@ public class TheGuardianChan
 
     public static void loadSettings() {
         try {
-            SpireConfig config = new SpireConfig("TheGuardianChanFix", "settings",TheGuardianChanDefaults);
+            SpireConfig config = new SpireConfig("WaifuTheSpire", "settings",TheGuardianChanDefaults);
             config.load();
             GuardianOriginalAnimation = config.getBool("GuardianOriginalAnimation");
             SlimeOriginalAnimation = config.getBool("SlimeOriginalAnimation");

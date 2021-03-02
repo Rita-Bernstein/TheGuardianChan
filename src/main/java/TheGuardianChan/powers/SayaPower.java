@@ -2,6 +2,7 @@ package TheGuardianChan.powers;
 
 import TheGuardianChan.TheGuardianChan;
 import TheGuardianChan.actions.SayaAction;
+import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.InvisiblePower;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -15,7 +16,7 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class SayaPower extends AbstractPower {
+public class SayaPower extends AbstractPower implements InvisiblePower {
   public static final String POWER_ID = TheGuardianChan.makeID("SayaPower");
   private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(TheGuardianChan.makeID("SayaPower"));
   public static final String NAME = powerStrings.NAME;

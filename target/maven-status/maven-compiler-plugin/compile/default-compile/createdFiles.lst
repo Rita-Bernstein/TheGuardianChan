@@ -23,7 +23,9 @@ TheGuardianChan\patches\SlimeBossPatch$SpikeSlime_SPatch.class
 TheGuardianChan\patches\SlimeBossPatch$BossPatch.class
 TheGuardianChan\patches\SlimeBossPatch$AcidSlime_LPatch.class
 TheGuardianChan\patches\HexaghostPatch.class
+TheGuardianChan\patches\ChampPatch$BossPatch.class
 TheGuardianChan\patches\SlimeBossPatch.class
+TheGuardianChan\patches\ChampPatch.class
 TheGuardianChan\patches\HexaghostPatch$PatchHexaghostField.class
 TheGuardianChan\patches\SlimeAttachPoints$AttachPoint.class
 TheGuardianChan\actions\SayaReloadAnimationAction.class

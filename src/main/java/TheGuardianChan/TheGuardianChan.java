@@ -18,6 +18,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.monsters.city.Champ;
 import com.megacrit.cardcrawl.monsters.city.Snecko;
 import com.megacrit.cardcrawl.monsters.exordium.*;
 import org.apache.logging.log4j.LogManager;
@@ -65,6 +66,8 @@ public class TheGuardianChan
     public static boolean displaySkin_SlimeSpike_L = false;
     public static boolean displaySkin_SlimeSpike_M = false;
     public static boolean displaySkin_SlimeSpike_S = false;
+
+    public static boolean displaySkin_Champ = false;
 //
     private static final float configRow = 50.0f;
     private static final float configColumn = 300.0f;
@@ -152,6 +155,9 @@ public class TheGuardianChan
         ModLabeledToggleButton displaySkin_SlimeSpike_SSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(SpikeSlime_S.ID).NAME,400.0f+2*configColumn, 720.0f-3*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_SlimeSpike_S, settingsPanel,
                 (label) -> {}, (button) -> {displaySkin_SlimeSpike_S = button.enabled;saveSettings();});
 
+        ModLabeledToggleButton displaySkin_ChampSwitch = new ModLabeledToggleButton(CardCrawlGame.languagePack.getMonsterStrings(Champ.ID).NAME,400.0f, 720.0f-4*configRow, Settings.CREAM_COLOR, FontHelper.charDescFont,displaySkin_Champ, settingsPanel,
+                (label) -> {}, (button) -> {displaySkin_Champ = button.enabled;saveSettings();});
+
         ModLabel displaySkinText = new ModLabel(CardCrawlGame.languagePack.getUIString(makeID("modSettings")).TEXT[3],400.0f, 720.0f, Settings.GOLD_COLOR, FontHelper.charDescFont,settingsPanel,(label) -> {});
 
 
@@ -166,6 +172,8 @@ public class TheGuardianChan
         settingsPanel.addUIElement(displaySkin_SlimeSpike_LSwitch);
         settingsPanel.addUIElement(displaySkin_SlimeSpike_MSwitch);
         settingsPanel.addUIElement(displaySkin_SlimeSpike_SSwitch);
+
+        settingsPanel.addUIElement(displaySkin_ChampSwitch);
 
         settingsPanel.addUIElement(displaySkinText);
 
@@ -190,6 +198,8 @@ public class TheGuardianChan
             config.setBool("displaySkin_SlimeSpike_L", displaySkin_SlimeSpike_L);
             config.setBool("displaySkin_SlimeSpike_M", displaySkin_SlimeSpike_M);
             config.setBool("displaySkin_SlimeSpike_S", displaySkin_SlimeSpike_S);
+
+            config.setBool("displaySkin_Champ", displaySkin_Champ);
             config.save();
         } catch (Exception e) {
             e.printStackTrace();
@@ -217,6 +227,8 @@ public class TheGuardianChan
             displaySkin_SlimeSpike_L = config.getBool("displaySkin_SlimeSpike_L");
             displaySkin_SlimeSpike_M = config.getBool("displaySkin_SlimeSpike_M");
             displaySkin_SlimeSpike_S = config.getBool("displaySkin_SlimeSpike_S");
+
+            displaySkin_Champ = config.getBool("displaySkin_Champ");
 
         } catch (Exception e) {
             e.printStackTrace();
